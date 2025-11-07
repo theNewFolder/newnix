@@ -2,6 +2,8 @@
   inputs = {
     garnix-lib.url = "github:garnix-io/garnix-lib";
     User.url = "github:garnix-io/user-module";
+    Rust.url = "github:garnix-io/rust-module";
+    UptimeKuma.url = "github:garnix-io/uptime-kuma-module";
   };
 
   nixConfig = {
@@ -12,6 +14,8 @@
   outputs = inputs: inputs.garnix-lib.lib.mkModules {
     modules = [
       inputs.User.garnixModules.default
+      inputs.Rust.garnixModules.default
+      inputs.UptimeKuma.garnixModules.default
     ];
 
     config = { pkgs, ... }: {
@@ -21,6 +25,21 @@
           groups = [  ];
           shell = "zsh";
           user = "o";
+        };
+      };
+      rust = {
+        rust-project = {
+          buildDependencies = [  ];
+          devTools = [  ];
+          runtimeDependencies = [  ];
+          src = ./.;
+          webServer = null;
+        };
+      };
+      uptimeKuma = {
+        uptimeKuma-project = {
+          path = "/";
+          port = 3001;
         };
       };
 
